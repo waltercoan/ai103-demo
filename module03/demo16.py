@@ -18,7 +18,7 @@ def _get_required_env(name: str) -> str:
 def _build_credential() -> DefaultAzureCredential:
 	return DefaultAzureCredential(
 		exclude_environment_credential=True,
-		exclude_managed_identity_credential=True,
+		exclude_managed_identity_credential=False,
 		exclude_shared_token_cache_credential=True,
 		exclude_visual_studio_code_credential=True,
 		exclude_powershell_credential=True,

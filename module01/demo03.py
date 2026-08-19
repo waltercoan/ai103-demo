@@ -18,7 +18,7 @@ def main() -> None:
 	# Usa DefaultAzureCredential forcando o provider do Azure CLI.
 	credential = DefaultAzureCredential(
 		exclude_environment_credential=True,
-		exclude_managed_identity_credential=True,
+		exclude_managed_identity_credential=False,
 		exclude_shared_token_cache_credential=True,
 		exclude_visual_studio_code_credential=True,
 		exclude_powershell_credential=True,

@@ -7,7 +7,7 @@ from typing import Any
 from azure.identity import DefaultAzureCredential
 from dotenv import load_dotenv
 from mcp import ClientSession
-from mcp.client.streamable_http import streamablehttp_client
+from mcp.client.streamable_http import create_mcp_http_client, streamable_http_client
 
 
 def _get_required_env(name: str) -> str:
@@ -29,7 +29,7 @@ def _build_remote_headers() -> dict[str, str]:
 	# Usa identidade Azure (CLI) para obter token quando nao houver bearer no .env.
 	credential = DefaultAzureCredential(
 		exclude_environment_credential=True,
-		exclude_managed_identity_credential=True,
+		exclude_managed_identity_credential=False,
 		exclude_shared_token_cache_credential=True,
 		exclude_visual_studio_code_credential=True,
 		exclude_powershell_credential=True,
@@ -121,22 +121,26 @@ async def _run_language_pii_tool(texto: str) -> Any:
 		tool_arguments = default_arguments
 
 	# Conecta somente em MCP remoto no Microsoft Foundry (sem servidor local).
-	async with streamablehttp_client(mcp_url, headers=headers) as (read_stream, write_stream, _):
-		async with ClientSession(read_stream, write_stream) as session:
-			await session.initialize()
+	async with create_mcp_http_client(headers=headers) as http_client:
+		async with streamable_http_client(mcp_url, http_client=http_client) as (
+			read_stream,
+			write_stream,
+		):
+			async with ClientSession(read_stream, write_stream) as session:
+				await session.initialize()
 
-			tools_response = await session.list_tools()
-			available_tools = [tool.name for tool in tools_response.tools]
-			selected_tool = _select_pii_tool_name(available_tools)
+				tools_response = await session.list_tools()
+				available_tools = [tool.name for tool in tools_response.tools]
+				selected_tool = _select_pii_tool_name(available_tools)
 
-			print("Ferramentas MCP disponiveis:")
-			for name in available_tools:
-				print(f"- {name}")
-			print(f"\nFerramenta de PII selecionada: {selected_tool}")
+				print("Ferramentas MCP disponiveis:")
+				for name in available_tools:
+					print(f"- {name}")
+				print(f"\nFerramenta de PII selecionada: {selected_tool}")
 
-			result = await session.call_tool(selected_tool, arguments=tool_arguments)
-			raw_output = _extract_text_from_result(result)
-			return _parse_payload(raw_output)
+				result = await session.call_tool(selected_tool, arguments=tool_arguments)
+				raw_output = _extract_text_from_result(result)
+				return _parse_payload(raw_output)
 
 
 def main() -> None:

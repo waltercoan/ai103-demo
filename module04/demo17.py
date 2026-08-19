@@ -32,7 +32,7 @@ def main() -> None:
 
 	# Le endpoint/deployment do Azure OpenAI e caminho da imagem.
 	azure_openai_endpoint = _get_required_env("AZURE_OPENAI_ENDPOINT")
-	deployment_name = os.getenv("AZURE_OPENAI_DEPLOYMENT", "deploy-gpt-4.1")
+	deployment_name = os.getenv("FOUNDRY_MODEL_DEPLOYMENT_NAME")
 	image_path_env = os.getenv("IMAGE_JPG_PATH")
 	if image_path_env:
 		image_path = Path(image_path_env)
@@ -50,7 +50,7 @@ def main() -> None:
 	# Autentica via identidade (Azure CLI) para obter token Entra ID.
 	credential = DefaultAzureCredential(
 		exclude_environment_credential=True,
-		exclude_managed_identity_credential=True,
+		exclude_managed_identity_credential=False,
 		exclude_shared_token_cache_credential=True,
 		exclude_visual_studio_code_credential=True,
 		exclude_powershell_credential=True,

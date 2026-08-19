@@ -11,7 +11,7 @@ def main() -> None:
 
 	# Le o endpoint do Azure OpenAI e o nome do deployment a partir do ambiente.
 	azure_openai_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
-	deployment_name = "deploy-gpt-4.1"  # Nome do deployment criado no Azure OpenAI Studio.
+	deployment_name = os.getenv("FOUNDRY_MODEL_DEPLOYMENT_NAME")
 
 	# Exibe as variaveis ativas para facilitar o diagnostico em caso de erro.
 	print("Variaveis de configuracao:")
@@ -22,7 +22,7 @@ def main() -> None:
 	# Os provedores nao utilizados sao desativados para forcar o uso do Azure CLI Developer.
 	credential = DefaultAzureCredential(
 		exclude_environment_credential=True,
-		exclude_managed_identity_credential=True,
+		exclude_managed_identity_credential=False,
 		exclude_shared_token_cache_credential=True,
 		exclude_visual_studio_code_credential=True,
 		exclude_powershell_credential=True,

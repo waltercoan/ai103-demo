@@ -43,7 +43,7 @@ def main() -> None:
 
 	# Endpoint do projeto Foundry e deployment do modelo para o agente.
 	project_endpoint = os.getenv("FOUNDRY_PROJECT_ENDPOINT")
-	model_deployment = os.getenv("FOUNDRY_MODEL_DEPLOYMENT_NAME", "deploy-gpt-4.1")
+	model_deployment = os.getenv("FOUNDRY_MODEL_DEPLOYMENT_NAME")
 
 	if not project_endpoint:
 		raise ValueError(
@@ -57,7 +57,7 @@ def main() -> None:
 	# Autenticacao via identidade local do Azure CLI.
 	credential = DefaultAzureCredential(
 		exclude_environment_credential=True,
-		exclude_managed_identity_credential=True,
+		exclude_managed_identity_credential=False,
 		exclude_shared_token_cache_credential=True,
 		exclude_visual_studio_code_credential=True,
 		exclude_powershell_credential=True,
@@ -74,9 +74,9 @@ def main() -> None:
 
 	# Instrucoes para um agente de Treinamento com acesso ao MCP do Microsoft Learn.
 	instructions = (
-		"Voce e um assistente virtual do setor de Treinamento de uma empresa. "
-		"Use o MCP Server do Microsoft Learn quando precisar buscar referencia "
-		"tecnica sobre produtos Microsoft."
+		"""Voce e um assistente virtual do setor de Treinamento de uma empresa. 
+		Use o MCP Server do Microsoft Learn quando precisar buscar referencia 
+		tecnica sobre produtos Microsoft."""
 	)
 
 	# Tool MCP apontando para o servidor MCP publico do Microsoft Learn.
@@ -146,7 +146,7 @@ def main() -> None:
 		print("\nAprovacao MCP enviada automaticamente.")
 		print_tool_output(response)
 
-	response_text = getattr(response, "output_text", None)
+	response_text = getattr(response, "output", None)
 	if not response_text:
 		response_text = "(sem resposta textual)"
 

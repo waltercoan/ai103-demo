@@ -11,7 +11,7 @@ def main() -> None:
 
 	# Le o endpoint do Azure OpenAI e o deployment do modelo.
 	azure_openai_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
-	deployment_name = "deploy-gpt-4.1"
+	deployment_name = os.getenv("FOUNDRY_MODEL_DEPLOYMENT_NAME")
 
 	# Falha cedo com mensagem clara caso o endpoint nao esteja configurado.
 	if not azure_openai_endpoint:
@@ -25,7 +25,7 @@ def main() -> None:
 	# Autentica via identidade (Azure CLI) para obter token Entra ID.
 	credential = DefaultAzureCredential(
 		exclude_environment_credential=True,
-		exclude_managed_identity_credential=True,
+		exclude_managed_identity_credential=False,
 		exclude_shared_token_cache_credential=True,
 		exclude_visual_studio_code_credential=True,
 		exclude_powershell_credential=True,

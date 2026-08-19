@@ -19,19 +19,16 @@ def _create_client() -> TextAnalyticsClient:
 
 	# Se existir chave no .env, usa autenticacao por chave.
 	# Caso contrario, usa identidade Azure (CLI) seguindo o mesmo padrao do demo01.
-	text_analytics_key = os.getenv("FOUNDRY_TEXT_ANALYTICS_KEY")
-	if text_analytics_key:
-		credential = AzureKeyCredential(text_analytics_key)
-	else:
-		credential = DefaultAzureCredential(
-			exclude_environment_credential=True,
-			exclude_managed_identity_credential=True,
-			exclude_shared_token_cache_credential=True,
-			exclude_visual_studio_code_credential=True,
-			exclude_powershell_credential=True,
-			exclude_developer_cli_credential=False,
-			exclude_interactive_browser_credential=True,
-		)
+	
+	credential = DefaultAzureCredential(
+		exclude_environment_credential=True,
+		exclude_managed_identity_credential=False,
+		exclude_shared_token_cache_credential=True,
+		exclude_visual_studio_code_credential=True,
+		exclude_powershell_credential=True,
+		exclude_developer_cli_credential=False,
+		exclude_interactive_browser_credential=True,
+	)
 
 	return TextAnalyticsClient(
 		endpoint=text_analytics_endpoint,

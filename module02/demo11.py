@@ -39,7 +39,7 @@ def main() -> None:
 	load_dotenv()
 
 	project_endpoint = os.getenv("FOUNDRY_PROJECT_ENDPOINT")
-	model_deployment = os.getenv("FOUNDRY_MODEL_DEPLOYMENT_NAME", "deploy-gpt-4.1")
+	model_deployment = os.getenv("FOUNDRY_MODEL_DEPLOYMENT_NAME")
 
 	if not project_endpoint:
 		raise ValueError(
@@ -52,7 +52,7 @@ def main() -> None:
 
 	credential = DefaultAzureCredential(
 		exclude_environment_credential=True,
-		exclude_managed_identity_credential=True,
+		exclude_managed_identity_credential=False,
 		exclude_shared_token_cache_credential=True,
 		exclude_visual_studio_code_credential=True,
 		exclude_powershell_credential=True,

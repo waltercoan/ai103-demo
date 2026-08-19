@@ -1,3 +1,6 @@
 azure-ai-textanalytics
+azure-identity
+python-dotenv
 mcp
 azure-ai-projects
+

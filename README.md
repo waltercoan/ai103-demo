@@ -54,3 +54,14 @@ Ative o ambiente virtual:
 	source .venv/bin/activate
 	```
 
+## .env File
+```
+FOUNDRY_PROJECT_ENDPOINT=https://<FOUNDRY_NAME>.services.ai.azure.com/api/projects/<PROJECT_NAME>
+FOUNDRY_MODEL_DEPLOYMENT_NAME=deploy-gpt-5.2
+AZURE_OPENAI_ENDPOINT=https://<FOUNDRY_NAME>.openai.azure.com/openai/v1
+#IMPORTANTE URL COGNITIVE SERVICES DIFERENTE DO PORTAL
+FOUNDRY_TEXT_ANALYTICS_ENDPOINT=https://<FOUNDRY_NAME>.cognitiveservices.azure.com/
+FOUNDRY_REMOTE_MCP_URL=https://<FOUNDRY_NAME>.cognitiveservices.azure.com/language/mcp?api-version=2025-11-15-preview
+FOUNDRY_REMOTE_MCP_PROJECT_CONNECTION_ID=<NOME_DA_CONEXAO_REMOTE_TOOL>
+CONTENTUNDERSTANDING_ENDPOINT=https://<FOUNDRY_NAME>.cognitiveservices.azure.com/
+```
